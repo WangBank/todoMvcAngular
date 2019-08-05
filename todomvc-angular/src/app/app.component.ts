@@ -80,6 +80,7 @@ public currentEditing:{
    window.localStorage.setItem('todoList',JSON.stringify(this.todoList))
   }
   //特殊的生命周期钩子函数，在应用初始化的时候发挥作用
+  //test
   ngOnInit(){
     this.hashchangehandle()
     window.onhashchange =this.hashchangehandle.bind(this)
