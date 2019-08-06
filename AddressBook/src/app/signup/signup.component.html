@@ -1,5 +1,5 @@
 <div class="container">
-    <form (submit)="signup()" class="form-signin">
+    <form #form="ngForm" (submit)="signup()" class="form-signin">
       <h2 class="form-signin-heading">Please sign up</h2>
       <label for="inputEmail" class="sr-only">Email address</label>
       <input type="email" 
@@ -8,20 +8,38 @@
       placeholder="Email address" 
       required 
       autofocus
+      email=true
       name="email"
       [(ngModel)]="signupForm.email"
-      >
+      #email="ngModel">
+
+      <div *ngIf="email.invalid && (email.dirty || email.touched)" class="alert alert-danger">
+        <div *ngIf="email.errors.required">
+          Email is required.
+        </div>
+        <div *ngIf="email.errors.email">
+          Invalid Email.
+        </div>
+      </div>
+      <div *ngIf="email_err_msg" class="alert alert-danger">
+        {{ email_err_msg }}
+      </div>
+
       <label for="inputPassword" class="sr-only">Password</label>
-      <input 
-      type="password" 
-      id="inputPassword" 
-      class="form-control" 
-      placeholder="Password" 
-      name="password"
-      required
-      [(ngModel)]="signupForm.password"
-      >
-      <button class="btn btn-lg btn-primary btn-block" type="submit">Sign up</button>
+      <input type="password" id="inputPassword" name="password" class="form-control" placeholder="Password" required minlength="6"
+      maxlength="18" [(ngModel)]="signupForm.password" #password="ngModel">
+    <div *ngIf="password.invalid && (password.dirty || password.touched)" class="alert alert-danger">
+      <div *ngIf="password.errors.required">
+        Password is required.
+      </div>
+      <div *ngIf="password.errors.minlength">
+        Password minlength 6.
+      </div>
+    </div>
+    <button
+    class="btn btn-lg btn-primary btn-block"
+    [disabled]="!form.form.valid"
+    type="submit">Sign up</button>
     </form>
     <p class="info"><a href="signin.html">Already have an account? Login here.</a></p>
   </div>
